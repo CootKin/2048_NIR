@@ -1,3 +1,6 @@
+### Кутюшкин Д.В. КЭ-303 ###
+### НИР ####################
+
 import pygame
 import sys
 from random import *
@@ -198,7 +201,7 @@ def highest(field): # Возвращает наибольшее число на 
                 res = field[i][j]
     return res
 
-def emptyCount(field):
+def emptyCount(field): # Возвращает число пустых ячеек на поле
     count = 0
     for i in field:
         for j in i:
@@ -206,7 +209,7 @@ def emptyCount(field):
                 count += 1
     return count
 
-def monotonicity(field):
+def monotonicity(field): # Возвращает значение монотонности
     res = 8
     temp = 100000
     for row in range(4):
@@ -227,7 +230,7 @@ def monotonicity(field):
         temp = 100000
     return res
 
-def smoothness(field):
+def smoothness(field): # Возвращает значение плавности
     res = 0
     for row in range(4):
         for col in range(3):
@@ -276,7 +279,7 @@ def count_numbers(field): # Количество ячеек каждого но�
                 res[10] += 1
     return res
 
-def count_exp(list): # Количество ячеек каждого номинала в результате множества симуляций (берется максимальная фишка из симуляуции)
+def count_exp(list): # Количество ячеек каждого номинала в результате множества симуляций (берется максимальная фишка из симуляции)
     res = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     for i in range(len(list)):
         if (list[i] == 2048):
@@ -530,7 +533,7 @@ def game_bot2(field): # ИИ, расчитывающий действия на 2
         drawInterface()  # Обновление игры
         pygame.display.update()
 
-def game_bot2_new(field): # ИИ, расчитывающий действия на 2 хода вперед
+def game_bot2_new(field): # ИИ, расчитывающий действия на 2 хода вперед, изменена реализация коэффициента силы хода
     while (canMove(field) != [False, False, False, False]):  # Игра продолжается пока можно передвигаться
 #                             Лево   Право  Верх   Низ
         #time.sleep(0.5)
@@ -769,13 +772,13 @@ def game_bot2_new(field): # ИИ, расчитывающий действия н
         drawInterface()  # Обновление игры
         pygame.display.update()
 
-def coordNew(field_old, field_new):
+def coordNew(field_old, field_new): # Координаты новой появившейся фишки, в коде не используется
     for i in range(4):
         for j in range(4):
             if (field_old[i][j] != field_new[i][j]):
                 return [i, j]
 
-def getStrength(field_old, field_new):
+def getStrength(field_old, field_new): # Расчет коэффициента силы хода
     smoothness_new = monotonicity(field_new)
     monotonicity_new = monotonicity(field_new)
     empty_count_new = emptyCount(field_new)
@@ -807,7 +810,7 @@ def getStrength(field_old, field_new):
     res = (q_smooth * smooth_weight) + (q_monot * monot_weight) + (q_empty * empty_weight) + (q_maxval * maxval_weight)
     return res
 
-def getComputerWay(field):
+def getComputerWay(field): # Возвращает список всех возможных ходов противника
     copy2 = copy_field(field)
     copy4 = copy_field(field)
     res = []
